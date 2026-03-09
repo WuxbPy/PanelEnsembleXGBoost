@@ -1,6 +1,6 @@
 # Classic Panel Dataset Benchmark Report
 
-Generated: 2026-03-09 10:23:44
+Generated: 2026-03-09 13:55:21
 
 ## Overview
 
@@ -8,67 +8,73 @@ This report compares the performance of PanelEnsembleXGBoost model on three clas
 
 ## Dataset Overview
 
-| Dataset | Observations | Entities | Time Periods | Dependent Variable | Main Explanatory Variables |
-|---------|--------------|----------|--------------|-------------------|---------------------------|
-| Grunfeld | 220 | 11 | 20 | invest | value, capital |
-| WagePanel | 3,815 | 545 | 7 | lwage | educ, exper, union, married |
-| CrimeData | 800 | 50 | 16 | crmrte | polpc, unem |
+
+| Dataset   | Observations | Entities | Time Periods | Dependent Variable | Main Explanatory Variables  |
+| ----------- | -------------- | ---------- | -------------- | -------------------- | ----------------------------- |
+| Grunfeld  | 220          | 11       | 20           | invest             | value, capital              |
+| WagePanel | 3,815        | 545      | 7            | lwage              | educ, exper, union, married |
+| CrimeData | 800          | 50       | 16           | crmrte             | polpc, unem                 |
 
 ## Grunfeld Dataset Results
 
 ### Model Performance Comparison (Test Set)
 
-| Model | R² | MSE | RMSE | MAE |
-|-------|-----|------|------|-----|
-| PanelEnsembleXGBoost | 0.9186 | 7047.7913 | 83.9511 | 40.3364 |
-| MixedLM | 0.7909 | 18095.6016 | 134.5199 | 85.6004 |
-| RandomEffects | 0.7899 | 18178.7060 | 134.8284 | 85.7201 |
-| PooledOLS | 0.7784 | 19176.4606 | 138.4791 | 79.0037 |
-| PanelOLS_FE | 0.4382 | 48615.9101 | 220.4902 | 162.8076 |
+
+| Model                | R²    | MSE        | RMSE     | MAE      |
+| ---------------------- | -------- | ------------ | ---------- | ---------- |
+| PanelEnsembleXGBoost | 0.9186 | 7047.7913  | 83.9511  | 40.3364  |
+| MixedLM              | 0.7909 | 18095.6016 | 134.5199 | 85.6004  |
+| RandomEffects        | 0.7899 | 18178.7060 | 134.8284 | 85.7201  |
+| PooledOLS            | 0.7784 | 19176.4606 | 138.4791 | 79.0037  |
+| GPBoost              | 0.5786 | 36467.9472 | 190.9658 | 84.4995  |
+| PanelOLS_FE          | 0.4382 | 48615.9101 | 220.4902 | 162.8076 |
 
 **Best Model**: PanelEnsembleXGBoost (Test set R² = 0.9186)
-
 
 ## WagePanel Dataset Results
 
 ### Model Performance Comparison (Test Set)
 
-| Model | R² | MSE | RMSE | MAE |
-|-------|-----|------|------|-----|
+
+| Model                | R²    | MSE    | RMSE   | MAE    |
+| ---------------------- | -------- | -------- | -------- | -------- |
 | PanelEnsembleXGBoost | 0.4266 | 0.1458 | 0.3819 | 0.2610 |
-| PooledOLS | 0.1645 | 0.2125 | 0.4610 | 0.3392 |
-| RandomEffects | 0.1546 | 0.2150 | 0.4637 | 0.3443 |
-| MixedLM | 0.1530 | 0.2154 | 0.4641 | 0.3448 |
+| GPBoost              | 0.2777 | 0.1837 | 0.4286 | 0.2860 |
+| PooledOLS            | 0.1645 | 0.2125 | 0.4610 | 0.3392 |
+| RandomEffects        | 0.1546 | 0.2150 | 0.4637 | 0.3443 |
+| MixedLM              | 0.1530 | 0.2154 | 0.4641 | 0.3448 |
 
 **Best Model**: PanelEnsembleXGBoost (Test set R² = 0.4266)
-
 
 ## CrimeData Dataset Results
 
 ### Model Performance Comparison (Test Set)
 
-| Model | R² | MSE | RMSE | MAE |
-|-------|-----|------|------|-----|
-| PanelEnsembleXGBoost | 0.1982 | 0.0541 | 0.2326 | 0.1622 |
-| PooledOLS | 0.1455 | 0.0577 | 0.2401 | 0.1929 |
-| MixedLM | 0.1413 | 0.0579 | 0.2407 | 0.1936 |
-| RandomEffects | 0.1412 | 0.0579 | 0.2407 | 0.1936 |
-| PanelOLS_FE | -0.0332 | 0.0697 | 0.2640 | 0.2164 |
+
+| Model                | R²     | MSE    | RMSE   | MAE    |
+| ---------------------- | --------- | -------- | -------- | -------- |
+| PanelEnsembleXGBoost | 0.1982  | 0.0541 | 0.2326 | 0.1622 |
+| PooledOLS            | 0.1455  | 0.0577 | 0.2401 | 0.1929 |
+| MixedLM              | 0.1413  | 0.0579 | 0.2407 | 0.1936 |
+| RandomEffects        | 0.1412  | 0.0579 | 0.2407 | 0.1936 |
+| PanelOLS_FE          | -0.0332 | 0.0697 | 0.2640 | 0.2164 |
+| GPBoost              | -0.3135 | 0.0886 | 0.2977 | 0.1719 |
 
 **Best Model**: PanelEnsembleXGBoost (Test set R² = 0.1982)
-
 
 ## Cross-Dataset Summary
 
 ### Model Average Ranking (Test Set R²)
 
-| Model | Avg Rank | Rank Std | Best Rank | Worst Rank |
-|-------|----------|----------|-----------|------------|
-| PanelEnsembleXGBoost | 1.00 | 0.00 | 1 | 1 |
-| MixedLM | 3.00 | 0.82 | 2 | 4 |
-| RandomEffects | 3.33 | 0.47 | 3 | 4 |
-| PooledOLS | 2.67 | 0.94 | 2 | 4 |
-| PanelOLS_FE | 5.00 | 0.00 | 5 | 5 |
+
+| Model                | Avg Rank | Rank Std | Best Rank | Worst Rank |
+| ---------------------- | ---------- | ---------- | ----------- | ------------ |
+| PanelEnsembleXGBoost | 1.00     | 0.00     | 1         | 1          |
+| MixedLM              | 3.33     | 1.25     | 2         | 5          |
+| RandomEffects        | 3.67     | 0.47     | 3         | 4          |
+| PooledOLS            | 3.00     | 0.82     | 2         | 4          |
+| GPBoost              | 4.33     | 1.70     | 2         | 6          |
+| PanelOLS_FE          | 5.50     | 0.50     | 5         | 6          |
 
 **Overall Best Model**: PanelEnsembleXGBoost (Average rank = 1.00)
 
@@ -109,16 +115,19 @@ This report compares the performance of PanelEnsembleXGBoost model on three clas
 ### Model Configuration
 
 **PanelEnsembleXGBoost**:
+
 - Random effects grouping: Entity identifier column
 - Smooth terms: GAM smoothing, spline basis functions
 - XGBoost parameters: n_estimators=100, max_depth=4, learning_rate=0.05
 
 **Traditional Models**:
+
 - PooledOLS: Ordinary least squares
 - Fixed Effects: Entity fixed effects
 - Random Effects: Random effects model
 
 **Modern Methods**:
+
 - GPBoost: Gradient boosting mixed model
 - MixedLM: Mixed linear model (statsmodels)
 
@@ -133,11 +142,13 @@ This report compares the performance of PanelEnsembleXGBoost model on three clas
 ### Citation and Acknowledgments
 
 To cite this report, please use the following format:
+
 > PanelEnsembleXGBoost Research Team. (2026). Classic Panel Dataset Benchmark Report. GitHub Repository.
 
 Special thanks to developers of open-source projects including statsmodels, linearmodels, xgboost, and gpboost.
 
 ---
+
 **Report Generated By**: PanelEnsembleXGBoost Benchmark Framework
 **Version**: 1.0.0
-**Generation Time**: 2026-03-09 10:23:44
+**Generation Time**: 2026-03-09 13:55:21
