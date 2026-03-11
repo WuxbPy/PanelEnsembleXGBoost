@@ -2,7 +2,7 @@
 
 **PanelEnsembleXGBoost** is an academic-grade Python package for complex panel data modeling, featuring a three-stage ensemble architecture that combines Random/Mixed Effects, GAM Smooth Effects, and XGBoost Nonlinear Interaction Effects. The framework supports multiple distribution families (Gaussian, Binomial, Multinomial) and includes independent modules for SHAP interpretability analysis and Difference-in-Differences (DID) causal inference.
 
--   **Documentation**: [https://github.com/yourusername/PanelEnsembleXGBoost](https://github.com/yourusername/PanelEnsembleXGBoost)
+-   **Documentation**: [https://github.com/WuxbPy/PanelEnsembleXGBoost](https://github.com/WuxbPy/PanelEnsembleXGBoost)
 -   **Free software**: [MIT License](https://opensource.org/licenses/MIT)
 
 ## Introduction
