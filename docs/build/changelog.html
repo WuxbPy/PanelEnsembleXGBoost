@@ -1,0 +1,293 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changelog &mdash; PanelEnsembleXGBoost 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=16b084b2" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Contributing" href="contributing.html" />
+     
+    <meta name="description" content="PanelEnsembleXGBoost: Academic-grade panel data ensemble learning framework with three-stage architecture" />
+    <meta name="keywords" content="panel data, ensemble learning, XGBoost, GAM, random effects, SHAP, DID, econometrics" />
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PanelEnsembleXGBoost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#core-dependencies">Core Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#regression-task-gaussian-family">Regression Task (Gaussian Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#binary-classification-task-binomial-family">Binary Classification Task (Binomial Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#shap-interpretability">SHAP Interpretability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#did-causal-analysis">DID Causal Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/model_architecture.html">Three-Stage Ensemble Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#stage-by-stage-details">Stage-by-Stage Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-1-random-mixed-effects-hat-y-1">Stage 1: Random/Mixed Effects (<span class="math notranslate nohighlight">\(\hat{y}_1\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-2-gam-smooth-effects-hat-y-2">Stage 2: GAM Smooth Effects (<span class="math notranslate nohighlight">\(\hat{y}_2\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-3-xgboost-nonlinear-interaction-effects-hat-y-3">Stage 3: XGBoost Nonlinear Interaction Effects (<span class="math notranslate nohighlight">\(\hat{y}_3\)</span>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#final-prediction">Final Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#design-rationale">Design Rationale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/distribution_families.html">Distribution Families</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#supported-families">Supported Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#stage-adaptation-by-family">Stage Adaptation by Family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#link-function-space">Link Function Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#family-strategy-api">Family Strategy API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/input_output_spec.html">Input/Output Specifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#fit-method">Fit Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#predict-method">Predict Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#predict-proba-method">predict_proba Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#get-stage-predictions">get_stage_predictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#common-pitfalls">Common Pitfalls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/random_effects.html">Stage 1: Random/Mixed Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#how-it-works-gaussian-lmm">How It Works (Gaussian LMM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#non-gaussian-glmm-extension">Non-Gaussian (GLMM) Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#diagnostic-output">Diagnostic Output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/smooth_effects.html">Stage 2: GAM Smooth Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#gam-smoothing-method-gam">GAM Smoothing (method=’gam’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#b-spline-smoothing-method-bspline">B-spline Smoothing (method=’bspline’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#important-design-detail">Important Design Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#residual-handling">Residual Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/xgboost_effects.html">Stage 3: XGBoost Interaction Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#input-features">Input Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#objective-function">Objective Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#parameter-control">Parameter Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#feature-column-ordering">Feature Column Ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/did_analysis.html">DID Causal Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/did_analysis.html#key-components">Key Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/did_analysis.html#basic-usage">Basic Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/benchmarks.html">Benchmark Comparison</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#datasets">Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#baseline-models">Baseline Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#data-split">Data Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#running-the-benchmark">Running the Benchmark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/theory.html">Theoretical Foundations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#consistency">Consistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#small-sample-bias">Small Sample Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#error-bounds">Error Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#panel-diagnostics">Panel Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#uncertainty-quantification">Uncertainty Quantification</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html">Utilities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/classic_benchmark.html">Classic Panel Benchmark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#key-functions">Key Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/shap_analysis.html">SHAP Analysis Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/did_analysis.html">DID Analysis Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#building-documentation-locally">Building Documentation Locally</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v2-1-0-february-2026">v2.1.0 (February 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-0-0-january-2026">v2.0.0 (January 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-0-december-2025">v1.0.0 (December 2025)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PanelEnsembleXGBoost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Changelog</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<section id="v2-1-0-february-2026">
+<h2>v2.1.0 (February 2026)<a class="headerlink" href="#v2-1-0-february-2026" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added family strategy pattern for multiple distribution families</p></li>
+<li><p>Added Binomial family support (binary classification)</p></li>
+<li><p>Added Multinomial family support (multiclass classification)</p></li>
+<li><p>Enhanced DID analysis module with parallel trends testing</p></li>
+<li><p>Improved theoretical framework documentation</p></li>
+<li><p>Added comprehensive benchmark suite</p></li>
+</ul>
+</section>
+<section id="v2-0-0-january-2026">
+<h2>v2.0.0 (January 2026)<a class="headerlink" href="#v2-0-0-january-2026" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Initial three-stage ensemble architecture</p></li>
+<li><p>Gaussian family support (regression)</p></li>
+<li><p>SHAP interpretability analysis module</p></li>
+<li><p>DID causal inference module</p></li>
+<li><p>Random effects using custom LMM implementation</p></li>
+<li><p>GAM smooth effects (pyGAM and B-spline)</p></li>
+<li><p>XGBoost nonlinear interaction effects</p></li>
+</ul>
+</section>
+<section id="v1-0-0-december-2025">
+<h2>v1.0.0 (December 2025)<a class="headerlink" href="#v1-0-0-december-2025" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Initial prototype with basic linear mixed model</p></li>
+<li><p>Simple one-stage XGBoost for panel data</p></li>
+<li><p>Basic benchmark comparison tools</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="contributing.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, PanelEnsembleXGBoost Research Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

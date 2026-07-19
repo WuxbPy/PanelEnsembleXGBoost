@@ -1,0 +1,422 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; PanelEnsembleXGBoost 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=16b084b2" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Three-Stage Ensemble Architecture" href="user_guide/model_architecture.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+     
+    <meta name="description" content="PanelEnsembleXGBoost: Academic-grade panel data ensemble learning framework with three-stage architecture" />
+    <meta name="keywords" content="panel data, ensemble learning, XGBoost, GAM, random effects, SHAP, DID, econometrics" />
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PanelEnsembleXGBoost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#core-dependencies">Core Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#regression-task-gaussian-family">Regression Task (Gaussian Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-classification-task-binomial-family">Binary Classification Task (Binomial Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shap-interpretability">SHAP Interpretability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#did-causal-analysis">DID Causal Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/model_architecture.html">Three-Stage Ensemble Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#stage-by-stage-details">Stage-by-Stage Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-1-random-mixed-effects-hat-y-1">Stage 1: Random/Mixed Effects (<span class="math notranslate nohighlight">\(\hat{y}_1\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-2-gam-smooth-effects-hat-y-2">Stage 2: GAM Smooth Effects (<span class="math notranslate nohighlight">\(\hat{y}_2\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide/model_architecture.html#stage-3-xgboost-nonlinear-interaction-effects-hat-y-3">Stage 3: XGBoost Nonlinear Interaction Effects (<span class="math notranslate nohighlight">\(\hat{y}_3\)</span>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#final-prediction">Final Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/model_architecture.html#design-rationale">Design Rationale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/distribution_families.html">Distribution Families</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#supported-families">Supported Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#stage-adaptation-by-family">Stage Adaptation by Family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#link-function-space">Link Function Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/distribution_families.html#family-strategy-api">Family Strategy API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/input_output_spec.html">Input/Output Specifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#fit-method">Fit Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#predict-method">Predict Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#predict-proba-method">predict_proba Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#get-stage-predictions">get_stage_predictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/input_output_spec.html#common-pitfalls">Common Pitfalls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/random_effects.html">Stage 1: Random/Mixed Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#how-it-works-gaussian-lmm">How It Works (Gaussian LMM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#non-gaussian-glmm-extension">Non-Gaussian (GLMM) Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/random_effects.html#diagnostic-output">Diagnostic Output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/smooth_effects.html">Stage 2: GAM Smooth Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#gam-smoothing-method-gam">GAM Smoothing (method=’gam’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#b-spline-smoothing-method-bspline">B-spline Smoothing (method=’bspline’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#important-design-detail">Important Design Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/smooth_effects.html#residual-handling">Residual Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/xgboost_effects.html">Stage 3: XGBoost Interaction Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#input-features">Input Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#objective-function">Objective Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#parameter-control">Parameter Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/xgboost_effects.html#feature-column-ordering">Feature Column Ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/did_analysis.html">DID Causal Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/did_analysis.html#key-components">Key Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/did_analysis.html#basic-usage">Basic Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/benchmarks.html">Benchmark Comparison</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#datasets">Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#baseline-models">Baseline Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#data-split">Data Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/benchmarks.html#running-the-benchmark">Running the Benchmark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/theory.html">Theoretical Foundations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#consistency">Consistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#small-sample-bias">Small Sample Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#error-bounds">Error Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#panel-diagnostics">Panel Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/theory.html#uncertainty-quantification">Uncertainty Quantification</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html">Utilities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/classic_benchmark.html">Classic Panel Benchmark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/classic_benchmark.html#key-functions">Key Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/shap_analysis.html">SHAP Analysis Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/did_analysis.html">DID Analysis Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#building-documentation-locally">Building Documentation Locally</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v2-1-0-february-2026">v2.1.0 (February 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v2-0-0-january-2026">v2.0.0 (January 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v1-0-0-december-2025">v1.0.0 (December 2025)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PanelEnsembleXGBoost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>This guide walks you through the basic usage of PanelEnsembleXGBoost for
+both regression and binary classification tasks.</p>
+<section id="regression-task-gaussian-family">
+<h2>Regression Task (Gaussian Family)<a class="headerlink" href="#regression-task-gaussian-family" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">panel_ensemble_xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">PanelEnsembleXGBoost</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># --- 1. Prepare panel data ---</span>
+<span class="n">n_groups</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">n_time</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">n_obs</span> <span class="o">=</span> <span class="n">n_groups</span> <span class="o">*</span> <span class="n">n_time</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">),</span>
+    <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">),</span>
+    <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_groups</span><span class="p">),</span> <span class="n">n_time</span><span class="p">),</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_time</span><span class="p">),</span> <span class="n">n_groups</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">)</span>
+
+<span class="c1"># Grouping data (can include time column as well)</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">X</span><span class="p">[[</span><span class="s1">&#39;group&#39;</span><span class="p">]]</span>
+
+<span class="c1"># --- 2. Initialize the model ---</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PanelEnsembleXGBoost</span><span class="p">(</span>
+    <span class="n">random_effects_groups</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">],</span>       <span class="c1"># Column name(s) for random effects</span>
+    <span class="n">smooth_terms</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;gam&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="s1">&#39;bspline&#39;</span><span class="p">},</span>  <span class="c1"># Smooth terms config</span>
+    <span class="n">xgb_params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">42</span>
+    <span class="p">},</span>
+    <span class="n">family</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>                     <span class="c1"># Distribution family</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># --- 3. Fit the model ---</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups_for_random_effects</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
+
+<span class="c1"># --- 4. Make predictions ---</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># --- 5. Inspect stage-wise contributions ---</span>
+<span class="n">stage_preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_stage_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stage 1 (Random Effects):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stage_preds</span><span class="p">[</span><span class="s1">&#39;stage1_random_effects&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stage 2 (Smooth Effects):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stage_preds</span><span class="p">[</span><span class="s1">&#39;stage2_smooth_effects&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stage 3 (XGBoost):&quot;</span><span class="p">,</span>       <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stage_preds</span><span class="p">[</span><span class="s1">&#39;stage3_nonlinear_effects&#39;</span><span class="p">]))</span>
+
+<span class="c1"># --- 6. Model summary ---</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="binary-classification-task-binomial-family">
+<h2>Binary Classification Task (Binomial Family)<a class="headerlink" href="#binary-classification-task-binomial-family" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">panel_ensemble_xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">PanelEnsembleXGBoost</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># --- 1. Prepare binary classification panel data ---</span>
+<span class="n">n_groups</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">n_time</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">n_obs</span> <span class="o">=</span> <span class="n">n_groups</span> <span class="o">*</span> <span class="n">n_time</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">),</span>
+    <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">),</span>
+    <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_groups</span><span class="p">),</span> <span class="n">n_time</span><span class="p">),</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_time</span><span class="p">),</span> <span class="n">n_groups</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="c1"># Generate binary outcome</span>
+<span class="n">logit</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_obs</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">y_binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">logit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="n">X</span><span class="p">[[</span><span class="s1">&#39;group&#39;</span><span class="p">]]</span>
+
+<span class="c1"># --- 2. Initialize with Binomial family ---</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PanelEnsembleXGBoost</span><span class="p">(</span>
+    <span class="n">random_effects_groups</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">],</span>
+    <span class="n">smooth_terms</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;gam&#39;</span><span class="p">},</span>
+    <span class="n">family</span><span class="o">=</span><span class="s1">&#39;binomial&#39;</span><span class="p">,</span>   <span class="c1"># &lt;-- Binary classification</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># --- 3. Fit ---</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">,</span> <span class="n">groups_for_random_effects</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
+
+<span class="c1"># --- 4. Predict class labels ---</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># --- 5. Predict probabilities ---</span>
+<span class="n">y_proba</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="shap-interpretability">
+<h2>SHAP Interpretability<a class="headerlink" href="#shap-interpretability" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">shap_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">SHAPAnalyzer</span>
+
+<span class="c1"># Create analyzer with the model&#39;s prediction function</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">SHAPAnalyzer</span><span class="p">(</span>
+    <span class="n">predict_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span>
+    <span class="n">X_background</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Compute SHAP values</span>
+<span class="n">shap_values</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">compute_shap_values</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Generate visualizations</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">plot_summary</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">plot_summary</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;beeswarm&#39;</span><span class="p">)</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">plot_waterfall</span><span class="p">(</span><span class="n">instance_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">plot_partial_dependence</span><span class="p">()</span>
+
+<span class="c1"># Get feature importance table</span>
+<span class="n">importance_df</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">get_feature_importance</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">importance_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="did-causal-analysis">
+<h2>DID Causal Analysis<a class="headerlink" href="#did-causal-analysis" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">did_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DIDAnalyzer</span><span class="p">,</span> <span class="n">estimate_att</span>
+
+<span class="c1"># Estimate Average Treatment Effect on the Treated</span>
+<span class="n">att_result</span> <span class="o">=</span> <span class="n">estimate_att</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">outcome_col</span><span class="o">=</span><span class="s1">&#39;outcome&#39;</span><span class="p">,</span>
+    <span class="n">treatment_col</span><span class="o">=</span><span class="s1">&#39;treated&#39;</span><span class="p">,</span>
+    <span class="n">unit_col</span><span class="o">=</span><span class="s1">&#39;unit_id&#39;</span><span class="p">,</span>
+    <span class="n">time_col</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">post_period</span><span class="o">=</span><span class="mi">2012</span>  <span class="c1"># Treatment year</span>
+<span class="p">)</span>
+
+<span class="c1"># Parallel trends test</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">did_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_parallel_trends</span>
+<span class="n">test_result</span> <span class="o">=</span> <span class="n">test_parallel_trends</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">outcome_col</span><span class="o">=</span><span class="s1">&#39;outcome&#39;</span><span class="p">,</span>
+    <span class="n">treatment_col</span><span class="o">=</span><span class="s1">&#39;treated&#39;</span><span class="p">,</span>
+    <span class="n">unit_col</span><span class="o">=</span><span class="s1">&#39;unit_id&#39;</span><span class="p">,</span>
+    <span class="n">time_col</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">pre_periods</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="what-s-next">
+<h2>What’s Next?<a class="headerlink" href="#what-s-next" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="user_guide/model_architecture.html"><span class="doc">Three-Stage Ensemble Architecture</span></a> — Understand the three-stage architecture in detail</p></li>
+<li><p><a class="reference internal" href="user_guide/distribution_families.html"><span class="doc">Distribution Families</span></a> — Explore supported distribution families</p></li>
+<li><p><a class="reference internal" href="user_guide/input_output_spec.html"><span class="doc">Input/Output Specifications</span></a> — Detailed input/output specifications</p></li>
+<li><p><a class="reference internal" href="api/PanelEnsembleXGBoost.html"><span class="doc">PanelEnsembleXGBoost</span></a> — Complete API reference</p></li>
+<li><p><a class="reference internal" href="examples/classic_benchmark.html"><span class="doc">Classic Panel Benchmark</span></a> — Full benchmark examples</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user_guide/model_architecture.html" class="btn btn-neutral float-right" title="Three-Stage Ensemble Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, PanelEnsembleXGBoost Research Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
