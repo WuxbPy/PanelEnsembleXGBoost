@@ -1,0 +1,386 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three-Stage Ensemble Architecture &mdash; PanelEnsembleXGBoost 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=16b084b2" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=20623aea"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Distribution Families" href="distribution_families.html" />
+    <link rel="prev" title="Quickstart" href="../quickstart.html" />
+     
+    <meta name="description" content="PanelEnsembleXGBoost: Academic-grade panel data ensemble learning framework with three-stage architecture" />
+    <meta name="keywords" content="panel data, ensemble learning, XGBoost, GAM, random effects, SHAP, DID, econometrics" />
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PanelEnsembleXGBoost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#core-dependencies">Core Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#regression-task-gaussian-family">Regression Task (Gaussian Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#binary-classification-task-binomial-family">Binary Classification Task (Binomial Family)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#shap-interpretability">SHAP Interpretability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#did-causal-analysis">DID Causal Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Three-Stage Ensemble Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#stage-by-stage-details">Stage-by-Stage Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stage-1-random-mixed-effects-hat-y-1">Stage 1: Random/Mixed Effects (<span class="math notranslate nohighlight">\(\hat{y}_1\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stage-2-gam-smooth-effects-hat-y-2">Stage 2: GAM Smooth Effects (<span class="math notranslate nohighlight">\(\hat{y}_2\)</span>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stage-3-xgboost-nonlinear-interaction-effects-hat-y-3">Stage 3: XGBoost Nonlinear Interaction Effects (<span class="math notranslate nohighlight">\(\hat{y}_3\)</span>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#final-prediction">Final Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-rationale">Design Rationale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="distribution_families.html">Distribution Families</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distribution_families.html#supported-families">Supported Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution_families.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution_families.html#stage-adaptation-by-family">Stage Adaptation by Family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution_families.html#link-function-space">Link Function Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution_families.html#family-strategy-api">Family Strategy API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input_output_spec.html">Input/Output Specifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="input_output_spec.html#fit-method">Fit Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_output_spec.html#predict-method">Predict Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_output_spec.html#predict-proba-method">predict_proba Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_output_spec.html#get-stage-predictions">get_stage_predictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_output_spec.html#common-pitfalls">Common Pitfalls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="random_effects.html">Stage 1: Random/Mixed Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="random_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_effects.html#how-it-works-gaussian-lmm">How It Works (Gaussian LMM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_effects.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_effects.html#non-gaussian-glmm-extension">Non-Gaussian (GLMM) Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_effects.html#diagnostic-output">Diagnostic Output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="smooth_effects.html">Stage 2: GAM Smooth Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="smooth_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smooth_effects.html#gam-smoothing-method-gam">GAM Smoothing (method=’gam’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smooth_effects.html#b-spline-smoothing-method-bspline">B-spline Smoothing (method=’bspline’)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smooth_effects.html#important-design-detail">Important Design Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smooth_effects.html#residual-handling">Residual Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_effects.html">Stage 3: XGBoost Interaction Effects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_effects.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_effects.html#input-features">Input Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_effects.html#objective-function">Objective Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_effects.html#parameter-control">Parameter Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_effects.html#feature-column-ordering">Feature Column Ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="did_analysis.html">DID Causal Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="did_analysis.html#key-components">Key Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="did_analysis.html#basic-usage">Basic Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmark Comparison</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#datasets">Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#baseline-models">Baseline Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#data-split">Data Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#running-the-benchmark">Running the Benchmark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theoretical Foundations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#consistency">Consistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#small-sample-bias">Small Sample Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#error-bounds">Error Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#panel-diagnostics">Panel Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#uncertainty-quantification">Uncertainty Quantification</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/modules.html#package-structure">Package Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/utils.html">Utilities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html">PanelEnsembleXGBoost</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#theoreticalpanelensemblexgboost">TheoreticalPanelEnsembleXGBoost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#paneldiagnostics">PanelDiagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/PanelEnsembleXGBoost.html#stagewiseuncertaintyquantification">StagewiseUncertaintyQuantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/SHAPAnalyzer.html">SHAPAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/DIDAnalyzer.html">DIDAnalyzer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/DIDAnalyzer.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/family_strategies.html">Family Strategies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/utils.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/classic_benchmark.html">Classic Panel Benchmark</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/classic_benchmark.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/classic_benchmark.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/classic_benchmark.html#key-functions">Key Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/shap_analysis.html">SHAP Analysis Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/did_analysis.html">DID Analysis Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#building-documentation-locally">Building Documentation Locally</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v2-1-0-february-2026">v2.1.0 (February 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v2-0-0-january-2026">v2.0.0 (January 2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v1-0-0-december-2025">v1.0.0 (December 2025)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PanelEnsembleXGBoost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Three-Stage Ensemble Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user_guide/model_architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="three-stage-ensemble-architecture">
+<span id="model-architecture"></span><h1>Three-Stage Ensemble Architecture<a class="headerlink" href="#three-stage-ensemble-architecture" title="Link to this heading"></a></h1>
+<p>PanelEnsembleXGBoost processes panel data through three sequential stages,
+each capturing a distinct aspect of the data generating process:</p>
+<div class="architecture-diagram">
+<pre style="font-size:1.1em; line-height:1.8;">
+<strong>Input</strong> (X, y, groups)
+      │
+      ▼
+┌──────────────────────────────────────┐
+│ <strong>Stage 1: Random/Mixed Effects</strong>       │
+│ LMM / GLMM (PQL Approximation)       │
+│ Captures between-group heterogeneity │
+│ Output: y₁ = fixed effects + random effects │
+│ Residual: r₁ = y − y₁               │
+└──────────────────────────────────────┘
+      │
+      ▼
+┌──────────────────────────────────────┐
+│ <strong>Stage 2: GAM Smooth Effects</strong>        │
+│ pyGAM or B-spline with             │
+│ distribution-appropriate link       │
+│ Models smooth nonlinear patterns    │
+│ Output: y₂ = s₁(r₁) + ... + sₖ(r₁) │
+│ Residual: r₂ = r₁ − y₂             │
+└──────────────────────────────────────┘
+      │
+      ▼
+┌──────────────────────────────────────┐
+│ <strong>Stage 3: XGBoost Interaction Effects</strong> │
+│ XGBRegressor with adaptive objective │
+│ Captures high-order interactions     │
+│ Output: y₃ = f(r₂, y₂)             │
+└──────────────────────────────────────┘
+      │
+      ▼
+<strong>Final Prediction</strong> = ŷ = y₁ + y₂ + y₃
+(in link function space, then transformed via inverse link)
+</pre>
+</div><section id="stage-by-stage-details">
+<h2>Stage-by-Stage Details<a class="headerlink" href="#stage-by-stage-details" title="Link to this heading"></a></h2>
+<section id="stage-1-random-mixed-effects-hat-y-1">
+<h3>Stage 1: Random/Mixed Effects (<span class="math notranslate nohighlight">\(\hat{y}_1\)</span>)<a class="headerlink" href="#stage-1-random-mixed-effects-hat-y-1" title="Link to this heading"></a></h3>
+<p><strong>Purpose:</strong> Account for unobserved heterogeneity across groups (individuals,
+firms, regions, etc.).</p>
+<p><strong>Method:</strong>
+- <strong>Gaussian family:</strong> Linear Mixed Model (LMM) using Penalized</p>
+<blockquote>
+<div><p>Quasi-Likelihood (PQL) approximation. Estimates fixed effects
+coefficients via OLS, then shrinks group residuals toward zero
+using empirical Bayes shrinkage factors.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Non-Gaussian families:</strong> Generalized Linear Mixed Model (GLMM)
+via iterative PQL, working in the link function space.</p></li>
+</ul>
+<p><strong>Output:</strong> <span class="math notranslate nohighlight">\(\hat{y}_1 = X\beta + Zu\)</span> where <span class="math notranslate nohighlight">\(u\)</span> are shrunken
+group random effects.</p>
+<p><strong>Residual (passed to Stage 2):</strong> <span class="math notranslate nohighlight">\(r_1 = y - \hat{y}_1\)</span></p>
+<p><strong>Key parameters:</strong>
+- <code class="docutils literal notranslate"><span class="pre">random_effects_groups</span></code>: List of column names identifying grouping variables
+- Minimum 3 groups required; groups with only 1 observation are excluded</p>
+</section>
+<section id="stage-2-gam-smooth-effects-hat-y-2">
+<h3>Stage 2: GAM Smooth Effects (<span class="math notranslate nohighlight">\(\hat{y}_2\)</span>)<a class="headerlink" href="#stage-2-gam-smooth-effects-hat-y-2" title="Link to this heading"></a></h3>
+<p><strong>Purpose:</strong> Model smooth nonlinear relationships for continuous covariates.</p>
+<p><strong>Methods:</strong>
+- <strong>‘gam’ (default):</strong> Uses <code class="xref py py-mod docutils literal notranslate"><span class="pre">pygam</span></code> with appropriate family:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Gaussian → <code class="docutils literal notranslate"><span class="pre">LinearGAM</span></code> with spline terms</p></li>
+<li><p>Binomial → <code class="docutils literal notranslate"><span class="pre">LogisticGAM</span></code> with spline terms</p></li>
+<li><p>Fallback: <code class="docutils literal notranslate"><span class="pre">sklearn.linear_model.LinearRegression</span></code> (when pygam unavailable)</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>‘bspline’:</strong> Custom B-spline basis expansion (degree 3, adaptive knots)
+combined with <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>.</p></li>
+</ul>
+<p><strong>Critical design:</strong> For non-Gaussian families, Stage 2 works in the
+<strong>link function space</strong> to ensure additivity when combining all three stages.</p>
+<p><strong>Output:</strong> <span class="math notranslate nohighlight">\(\hat{y}_2 = \sum_{j} s_j(r_1)\)</span>, sum of smooth terms
+<strong>Residual (passed to Stage 3):</strong> <span class="math notranslate nohighlight">\(r_2 = r_1 - \hat{y}_2\)</span></p>
+</section>
+<section id="stage-3-xgboost-nonlinear-interaction-effects-hat-y-3">
+<h3>Stage 3: XGBoost Nonlinear Interaction Effects (<span class="math notranslate nohighlight">\(\hat{y}_3\)</span>)<a class="headerlink" href="#stage-3-xgboost-nonlinear-interaction-effects-hat-y-3" title="Link to this heading"></a></h3>
+<p><strong>Purpose:</strong> Capture complex interaction patterns and high-order nonlinearities
+that remain after removing group heterogeneity and smooth trends.</p>
+<p><strong>Method:</strong>
+- Uses <code class="docutils literal notranslate"><span class="pre">xgboost.XGBRegressor</span></code> with <code class="docutils literal notranslate"><span class="pre">'reg:squarederror'</span></code> objective</p>
+<blockquote>
+<div><p>(for all families, operating in link space)</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Includes Stage 2 predictions as an additional feature (<code class="docutils literal notranslate"><span class="pre">gam_smooth_pred</span></code>)
+to allow the boosting stage to adjust for systematic smooth effects</p></li>
+</ul>
+<p><strong>Output:</strong> <span class="math notranslate nohighlight">\(\hat{y}_3 = f(r_2; X_{numeric}, \hat{y}_2)\)</span></p>
+</section>
+</section>
+<section id="final-prediction">
+<h2>Final Prediction<a class="headerlink" href="#final-prediction" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\eta = \hat{y}_1 + \hat{y}_2 + \hat{y}_3\\\begin{split}\hat{y} =
+\begin{cases}
+\eta &amp; \text{(Gaussian, identity link)} \\
+\sigma(\eta) = \frac{1}{1 + e^{-\eta}} &amp; \text{(Binomial, logit link)}
+\end{cases}\end{split}\end{aligned}\end{align} \]</div>
+</section>
+<section id="design-rationale">
+<h2>Design Rationale<a class="headerlink" href="#design-rationale" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Sequential residual learning:</strong> Each stage models what the previous stages
+could not capture, preventing duplication of effort and ensuring
+complementary contributions.</p></li>
+<li><p><strong>Link function space additivity:</strong> All three stages produce outputs in the
+linear predictor (link) space, ensuring their sum corresponds to a
+valid prediction after applying the inverse link function.</p></li>
+<li><p><strong>Graceful degradation:</strong> If a stage fails (e.g., insufficient groups for
+random effects, pygam unavailable for GAM), the model falls back to
+simpler alternatives or skips the stage entirely.</p></li>
+<li><p><strong>Modularity:</strong> Each stage can be configured, extended, or replaced
+independently.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distribution_families.html" class="btn btn-neutral float-right" title="Distribution Families" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, PanelEnsembleXGBoost Research Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
