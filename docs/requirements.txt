@@ -1,0 +1,7 @@
+# Dependencies for building PanelEnsembleXGBoost documentation
+sphinx>=7.0.0
+sphinx-rtd-theme>=2.0.0
+sphinx-autodoc-typehints>=1.25.0
+numpydoc>=1.6.0
+myst-parser>=2.0.0
+nbsphinx>=0.9.0
